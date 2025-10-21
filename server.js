@@ -6,7 +6,41 @@ const sqlite3 = require('sqlite3').verbose();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Basic Auth middleware
+function basicAuth(req, res, next) {
+  const authHeader = req.headers.authorization;
+  const ADMIN_USER = process.env.ADMIN_USER || 'admin';
+  const ADMIN_PASS = process.env.ADMIN_PASS || 'admin123';
+  
+  if (!authHeader || !authHeader.startsWith('Basic ')) {
+    res.setHeader('WWW-Authenticate', 'Basic realm="Admin Area"');
+    return res.status(401).json({ error: 'Autentikacija potrebna' });
+  }
+  
+  const base64Credentials = authHeader.split(' ')[1];
+  const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
+  const [username, password] = credentials.split(':');
+  
+  if (username === ADMIN_USER && password === ADMIN_PASS) {
+    return next();
+  }
+  
+  res.setHeader('WWW-Authenticate', 'Basic realm="Admin Area"');
+  return res.status(401).json({ error: 'Neispravne vjerodajnice' });
+}
+
 app.use(bodyParser.json());
+
+// Protected admin routes (Basic Auth required)
+app.get('/admin_auth.html', basicAuth, (req, res) => {
+  res.sendFile(__dirname + '/public/admin_auth.html');
+});
+
+app.get('/admin_auth.js', basicAuth, (req, res) => {
+  res.setHeader('Content-Type', 'application/javascript');
+  res.sendFile(__dirname + '/public/admin_auth.js');
+});
+
 app.use(express.static('public'));
 
 dbModule.init();
@@ -32,7 +66,7 @@ app.get('/api/tables', (req, res) => {
 });
 
 app.post('/api/orders', (req, res) => {
-  const { customer_name, customer_phone, customer_email, table_number, location, items, payment_method } = req.body;
+  const { customer_name, customer_phone, customer_email, table_number, location, items, payment_method, card } = req.body;
   if (!customer_name || !customer_phone || !table_number || !location || !Array.isArray(items) || !payment_method) {
     return res.status(400).json({ error: 'Nedostaju obavezna polja' });
   }
@@ -48,8 +82,12 @@ app.post('/api/orders', (req, res) => {
     if (err) return res.status(500).json({ error: 'DB error' });
     if (!tableRow) return res.status(400).json({ error: 'Nevažeći broj stola ili lokacija' });
 
-    const insertOrder = `INSERT INTO orders (customer_name, customer_phone, customer_email, table_number, location, payment_method) VALUES (?, ?, ?, ?, ?, ?)`;
-    db.run(insertOrder, [customer_name, customer_phone, customer_email || null, table_number, location, payment_method], function(err) {
+    // Extract card data if present
+    const card_holder = (card && card.card_holder) ? card.card_holder : null;
+    const card_number_masked = (card && card.card_number_masked) ? card.card_number_masked : null;
+
+    const insertOrder = `INSERT INTO orders (customer_name, customer_phone, customer_email, table_number, location, payment_method, card_holder, card_number_masked) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+    db.run(insertOrder, [customer_name, customer_phone, customer_email || null, table_number, location, payment_method, card_holder, card_number_masked], function(err) {
       if (err) return res.status(500).json({ error: 'DB error prilikom spremanja narudžbe' });
       const orderId = this.lastID;
       const insertItemStmt = db.prepare(`INSERT INTO order_items (order_id, dish_id, quantity) VALUES (?, ?, ?)`);
@@ -94,7 +132,41 @@ app.post('/api/reservations', (req, res) => {
 });
 
 app.get('/api/orders', (req, res) => {
-  db.all(`SELECT * FROM orders ORDER BY created_at DESC`, (err, orders) => {
+  // Support query params: search, location, table_number, payment_method
+  const { search, location, table_number, payment_method } = req.query;
+  
+  let query = `SELECT * FROM orders`;
+  let params = [];
+  let conditions = [];
+  
+  if (search) {
+    conditions.push(`(customer_name LIKE ? OR customer_phone LIKE ? OR customer_email LIKE ?)`);
+    const searchPattern = `%${search}%`;
+    params.push(searchPattern, searchPattern, searchPattern);
+  }
+  
+  if (location) {
+    conditions.push(`location = ?`);
+    params.push(location);
+  }
+  
+  if (table_number) {
+    conditions.push(`table_number = ?`);
+    params.push(Number(table_number));
+  }
+  
+  if (payment_method) {
+    conditions.push(`payment_method = ?`);
+    params.push(payment_method);
+  }
+  
+  if (conditions.length > 0) {
+    query += ` WHERE ` + conditions.join(' AND ');
+  }
+  
+  query += ` ORDER BY created_at DESC`;
+  
+  db.all(query, params, (err, orders) => {
     if (err) return res.status(500).json({ error: 'DB error' });
     const result = [];
     let pending = orders.length;
@@ -114,6 +186,22 @@ app.get('/api/reservations', (req, res) => {
   db.all(`SELECT * FROM reservations ORDER BY reserved_at DESC`, (err, rows) => {
     if (err) return res.status(500).json({ error: 'DB error' });
     res.json(rows);
+  });
+});
+
+// GET single order by ID with items
+app.get('/api/orders/:id', (req, res) => {
+  const id = Number(req.params.id);
+  if (!id) return res.status(400).json({ error: 'Neispravan ID' });
+  
+  db.get(`SELECT * FROM orders WHERE id = ?`, [id], (err, order) => {
+    if (err) return res.status(500).json({ error: 'DB error' });
+    if (!order) return res.status(404).json({ error: 'Narudžba nije pronađena' });
+    
+    db.all(`SELECT oi.quantity, d.name, d.price FROM order_items oi JOIN dishes d ON oi.dish_id = d.id WHERE oi.order_id = ?`, [id], (err, items) => {
+      if (err) return res.status(500).json({ error: 'DB error' });
+      res.json({ order, items });
+    });
   });
 });
 

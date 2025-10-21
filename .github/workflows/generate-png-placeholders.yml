@@ -1,0 +1,42 @@
+name: Generate PNG Placeholders
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/images/*.svg'
+
+jobs:
+  generate-pngs:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Install ImageMagick
+        run: sudo apt-get update && sudo apt-get install -y imagemagick
+        
+      - name: Convert SVG to PNG
+        run: |
+          cd docs/images
+          for svg in *.svg; do
+            if [ -f "$svg" ]; then
+              png="${svg%.svg}.png"
+              echo "Converting $svg to $png"
+              convert -density 150 -resize 1280x720 -background white -alpha remove "$svg" "$png"
+            fi
+          done
+          
+      - name: Commit and push PNG files
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs/images/*.png
+          if git diff --staged --quiet; then
+            echo "No PNG files to commit"
+          else
+            git commit -m "Generate PNG placeholders from SVG files"
+            git push
+          fi

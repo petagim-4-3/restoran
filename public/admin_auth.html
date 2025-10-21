@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="hr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Restoran - Admin (zaštićeno)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Admin - Restoran (zaštićeno Basic Auth)</h1>
+      <p>Pregled i upravljanje narudžbama i rezervacijama</p>
+    </header>
+
+    <section class="card">
+      <h2>Narudžbe</h2>
+      <div>
+        <button id="refresh-orders">Osvježi</button>
+      </div>
+      <div id="orders-list">Učitavanje narudžbi...</div>
+    </section>
+
+    <section class="card">
+      <h2>Rezervacije</h2>
+      <div>
+        <button id="refresh-reservations">Osvježi</button>
+      </div>
+      <div id="reservations-list">Učitavanje rezervacija...</div>
+    </section>
+
+    <footer>
+      <small>Admin sučelje - koristi se lokalno ili na sigurnom serveru</small>
+    </footer>
+  </div>
+
+  <script src="admin_auth.js"></script>
+</body>
+</html>
