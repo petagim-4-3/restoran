@@ -32,7 +32,7 @@ app.get('/api/tables', (req, res) => {
 });
 
 app.post('/api/orders', (req, res) => {
-  const { customer_name, customer_phone, customer_email, table_number, location, items, payment_method } = req.body;
+  const { customer_name, customer_phone, customer_email, table_number, location, items, payment_method, card_holder, card_number_masked } = req.body;
   if (!customer_name || !customer_phone || !table_number || !location || !Array.isArray(items) || !payment_method) {
     return res.status(400).json({ error: 'Nedostaju obavezna polja' });
   }
@@ -48,8 +48,8 @@ app.post('/api/orders', (req, res) => {
     if (err) return res.status(500).json({ error: 'DB error' });
     if (!tableRow) return res.status(400).json({ error: 'Nevažeći broj stola ili lokacija' });
 
-    const insertOrder = `INSERT INTO orders (customer_name, customer_phone, customer_email, table_number, location, payment_method) VALUES (?, ?, ?, ?, ?, ?)`;
-    db.run(insertOrder, [customer_name, customer_phone, customer_email || null, table_number, location, payment_method], function(err) {
+    const insertOrder = `INSERT INTO orders (customer_name, customer_phone, customer_email, table_number, location, payment_method, card_holder, card_number_masked) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+    db.run(insertOrder, [customer_name, customer_phone, customer_email || null, table_number, location, payment_method, card_holder || null, card_number_masked || null], function(err) {
       if (err) return res.status(500).json({ error: 'DB error prilikom spremanja narudžbe' });
       const orderId = this.lastID;
       const insertItemStmt = db.prepare(`INSERT INTO order_items (order_id, dish_id, quantity) VALUES (?, ?, ?)`);

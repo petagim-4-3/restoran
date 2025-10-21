@@ -57,6 +57,54 @@
           </select>
         </div>
 
+        <div id="card-details-section" style="display: none;">
+          <h3>Detalji kartice</h3>
+          <div class="form-row">
+            <label for="card_holder">Ime i prezime (na kartici)*</label>
+            <input type="text" id="card_holder" name="card_holder" placeholder="Ime i prezime" />
+          </div>
+          <div class="form-row">
+            <label for="card_number">Broj kartice*</label>
+            <input type="text" id="card_number" name="card_number" placeholder="1234 5678 9012 3456" maxlength="19" />
+          </div>
+          <div class="form-row">
+            <label for="card_expiry">Datum isteka (MM/YY)*</label>
+            <input type="text" id="card_expiry" name="card_expiry" placeholder="MM/YY" maxlength="5" />
+          </div>
+          <div class="form-row">
+            <label for="card_cvc">CVC*</label>
+            <input type="text" id="card_cvc" name="card_cvc" placeholder="123" maxlength="4" />
+          </div>
+        </div>
+
+        <div>
+          <h3>Podaci za račun (opcionalno)</h3>
+          <div class="form-row">
+            <label for="company_name">Naziv firme</label>
+            <input type="text" id="company_name" name="company_name" placeholder="Naziv firme" />
+          </div>
+          <div class="form-row">
+            <label for="company_address">Adresa</label>
+            <input type="text" id="company_address" name="company_address" placeholder="Adresa firme" />
+          </div>
+          <div class="form-row">
+            <label for="company_jib">JIB</label>
+            <input type="text" id="company_jib" name="company_jib" placeholder="JIB" />
+          </div>
+          <div class="form-row">
+            <label for="company_pib">PIB</label>
+            <input type="text" id="company_pib" name="company_pib" placeholder="PIB" />
+          </div>
+          <div class="form-row">
+            <label for="company_ibfm">IBFM</label>
+            <input type="text" id="company_ibfm" name="company_ibfm" placeholder="IBFM" />
+          </div>
+          <div class="form-row">
+            <label for="operator">Operator</label>
+            <input type="text" id="operator" name="operator" placeholder="Ime operatera" />
+          </div>
+        </div>
+
         <div>
           <h3>Odaberite količine (0 = ne naručujem)</h3>
           <div id="order-items"></div>
