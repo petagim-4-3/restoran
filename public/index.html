@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="hr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Restoran - Narudžba i rezervacija (server)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Restoran - Narudžba & Rezervacija (v2: server)</h1>
+      <p>Tehnologije: HTML, CSS, JavaScript, Node.js (Express), SQLite</p>
+    </header>
+
+    <section id="menu-section" class="card">
+      <h2>Meni</h2>
+      <div id="menu-list">Učitavanje menija...</div>
+    </section>
+
+    <section id="order-section" class="card">
+      <h2>Forma narudžbe</h2>
+      <form id="order-form">
+        <div class="form-row">
+          <label for="customer_name">Ime i prezime*</label>
+          <input type="text" id="customer_name" name="customer_name" required placeholder="Ime i prezime" />
+        </div>
+        <div class="form-row">
+          <label for="customer_phone">Telefon*</label>
+          <input type="text" id="customer_phone" name="customer_phone" required placeholder="+385912345678 ili 0912345678" />
+        </div>
+        <div class="form-row">
+          <label for="customer_email">Email (opcionalno)</label>
+          <input type="email" id="customer_email" name="customer_email" placeholder="ime@domena.hr" />
+        </div>
+
+        <div class="form-row">
+          <label for="location_select">Lokacija stola*</label>
+          <select id="location_select" required>
+            <option value="">Odaberite lokaciju</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="table_select">Broj stola*</label>
+          <select id="table_select" required>
+            <option value="">Prvo odaberite lokaciju</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label>Nacin placanja*</label>
+          <select id="payment_method" required>
+            <option value="">Odaberite način plaćanja</option>
+            <option value="gotovina">Gotovina</option>
+            <option value="kartica">Kartica</option>
+          </select>
+        </div>
+
+        <div>
+          <h3>Odaberite količine (0 = ne naručujem)</h3>
+          <div id="order-items"></div>
+        </div>
+
+        <div class="form-row">
+          <button type="submit">Pošalji narudžbu</button>
+        </div>
+      </form>
+
+      <div id="message"></div>
+    </section>
+
+    <section id="reservation-section" class="card">
+      <h2>Rezervacija stola (poseban formular)</h2>
+      <form id="reservation-form">
+        <div class="form-row">
+          <label for="r_name">Ime i prezime*</label>
+          <input type="text" id="r_name" required />
+        </div>
+        <div class="form-row">
+          <label for="r_phone">Telefon*</label>
+          <input type="text" id="r_phone" required />
+        </div>
+        <div class="form-row">
+          <label for="r_email">Email (opcionalno)</label>
+          <input type="email" id="r_email" />
+        </div>
+
+        <div class="form-row">
+          <label for="r_location">Lokacija*</label>
+          <select id="r_location" required>
+            <option value="">Odaberite</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="r_table">Stol*</label>
+          <select id="r_table" required>
+            <option value="">Prvo odaberite lokaciju</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="r_datetime">Datum i vrijeme rezervacije*</label>
+          <input id="r_datetime" type="datetime-local" required />
+        </div>
+
+        <div class="form-row">
+          <label for="r_seats">Broj osoba (opcionalno)</label>
+          <input id="r_seats" type="number" min="1" max="20" />
+        </div>
+
+        <div class="form-row">
+          <button type="submit">Pošalji rezervaciju</button>
+        </div>
+      </form>
+      <div id="res-message"></div>
+    </section>
+
+    <footer>
+      <small>Projekt za informatiku — 4. razred gimnazije (v2 server)</small>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
