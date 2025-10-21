@@ -53,6 +53,7 @@ function maskCardNumber(number) {
 const cardNumberRegex = /^\d{13,19}$/;
 
 const nameRegex = /^[A-Za-zČćŽžŠšĐđ\s\-]{2,100}$/; const phoneRegex = /^\+?\d{6,15}$/; const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
 function showMessage(el, text, type) { el.innerHTML = ''; const p = document.createElement('p'); p.textContent = text; p.className = type === 'error' ? 'error' : (type === 'success' ? 'success' : ''); el.appendChild(p); }
 function downloadJSON(filename, data) { const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); }
 
@@ -136,7 +137,7 @@ document.getElementById('generate-receipt').addEventListener('click', () => {
     if (dish) {
       const itemTotal = dish.price * it.quantity;
       subtotal += itemTotal;
-      itemsHtml += `<tr><td>${dish.name}</td><td>${it.quantity}</td><td>${dish.price.toFixed(2)} kn</td><td>${itemTotal.toFixed(2)} kn</td></tr>`;
+      itemsHtml += `<tr><td>${escapeHtml(dish.name)}</td><td>${it.quantity}</td><td>${dish.price.toFixed(2)} kn</td><td>${itemTotal.toFixed(2)} kn</td></tr>`;
     }
   });
   
@@ -157,7 +158,7 @@ document.getElementById('generate-receipt').addEventListener('click', () => {
     <html>
     <head>
       <meta charset="utf-8">
-      <title>Račun - ${companyName}</title>
+      <title>Račun - ${escapeHtml(companyName)}</title>
       <style>
         body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; }
         h1 { text-align: center; }
@@ -172,14 +173,14 @@ document.getElementById('generate-receipt').addEventListener('click', () => {
     </head>
     <body>
       <div class="company-info">
-        <h1>${companyName}</h1>
-        ${companyAddress ? `<p>${companyAddress}</p>` : ''}
-        ${companyJib ? `<p>JIB: ${companyJib}</p>` : ''}
-        ${companyPib ? `<p>PIB: ${companyPib}</p>` : ''}
-        ${companyIbfm ? `<p>IBFM: ${companyIbfm}</p>` : ''}
-        ${operator ? `<p>Operator: ${operator}</p>` : ''}
+        <h1>${escapeHtml(companyName)}</h1>
+        ${companyAddress ? `<p>${escapeHtml(companyAddress)}</p>` : ''}
+        ${companyJib ? `<p>JIB: ${escapeHtml(companyJib)}</p>` : ''}
+        ${companyPib ? `<p>PIB: ${escapeHtml(companyPib)}</p>` : ''}
+        ${companyIbfm ? `<p>IBFM: ${escapeHtml(companyIbfm)}</p>` : ''}
+        ${operator ? `<p>Operator: ${escapeHtml(operator)}</p>` : ''}
         <p>Datum i vrijeme: ${dateTimeStr}</p>
-        ${customer_name ? `<p>Kupac: ${customer_name}</p>` : ''}
+        ${customer_name ? `<p>Kupac: ${escapeHtml(customer_name)}</p>` : ''}
         ${location && table_number ? `<p>Stol: ${table_number} (${location})</p>` : ''}
       </div>
       

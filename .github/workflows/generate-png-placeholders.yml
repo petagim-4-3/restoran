@@ -7,6 +7,9 @@ on:
     paths:
       - 'docs/images/*.svg'
 
+permissions:
+  contents: write
+
 jobs:
   generate-pngs:
     runs-on: ubuntu-latest

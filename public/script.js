@@ -21,6 +21,12 @@ const phoneRegex = /^\+?\d{6,15}$/;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const cardNumberRegex = /^\d{13,19}$/;
 
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
 function showMessage(el, text, type='') { el.innerHTML = ''; const p = document.createElement('p'); p.textContent = text; if (type === 'error') p.className = 'error'; if (type === 'success') p.className = 'success'; el.appendChild(p); }
 
 fetch('/api/menu').then(r => r.json()).then(data => { menu = data; renderMenu(menu); renderOrderItems(menu); }).catch(err => { menuListEl.textContent = 'Greška pri učitavanju menija'; });
@@ -166,7 +172,7 @@ document.getElementById('print-receipt').addEventListener('click', () => {
   let itemsHtml = '';
   lastOrderItems.forEach(it => {
     const itemTotal = it.price * it.quantity;
-    itemsHtml += `<tr><td>${it.name}</td><td>${it.quantity}</td><td>${it.price.toFixed(2)} kn</td><td>${itemTotal.toFixed(2)} kn</td></tr>`;
+    itemsHtml += `<tr><td>${escapeHtml(it.name)}</td><td>${it.quantity}</td><td>${it.price.toFixed(2)} kn</td><td>${itemTotal.toFixed(2)} kn</td></tr>`;
   });
   
   const receiptHtml = `
@@ -189,12 +195,12 @@ document.getElementById('print-receipt').addEventListener('click', () => {
     </head>
     <body>
       <div class="company-info">
-        <h1>${companyName}</h1>
-        ${companyAddress ? `<p>${companyAddress}</p>` : ''}
-        ${companyJib ? `<p>JIB: ${companyJib}</p>` : ''}
-        ${companyPib ? `<p>PIB: ${companyPib}</p>` : ''}
-        ${companyIbfm ? `<p>IBFM: ${companyIbfm}</p>` : ''}
-        ${operator ? `<p>Operator: ${operator}</p>` : ''}
+        <h1>${escapeHtml(companyName)}</h1>
+        ${companyAddress ? `<p>${escapeHtml(companyAddress)}</p>` : ''}
+        ${companyJib ? `<p>JIB: ${escapeHtml(companyJib)}</p>` : ''}
+        ${companyPib ? `<p>PIB: ${escapeHtml(companyPib)}</p>` : ''}
+        ${companyIbfm ? `<p>IBFM: ${escapeHtml(companyIbfm)}</p>` : ''}
+        ${operator ? `<p>Operator: ${escapeHtml(operator)}</p>` : ''}
         <p>Datum i vrijeme: ${dateTimeStr}</p>
         <p>Narudžba ID: ${lastOrderId}</p>
       </div>
