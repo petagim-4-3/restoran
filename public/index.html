@@ -57,6 +57,26 @@
           </select>
         </div>
 
+        <div id="card-block" style="display:none" class="card">
+          <h3>Podaci o kartici</h3>
+          <div class="form-row">
+            <label for="card_holder">Ime i prezime*</label>
+            <input id="card_holder" type="text" />
+          </div>
+          <div class="form-row">
+            <label for="card_number">Broj kartice*</label>
+            <input id="card_number" type="text" placeholder="xxxx xxxx xxxx xxxx" />
+          </div>
+          <div class="form-row">
+            <label for="card_expiry">Datum isteka (MM/YY)*</label>
+            <input id="card_expiry" type="text" placeholder="MM/YY" />
+          </div>
+          <div class="form-row">
+            <label for="card_cvc">CVC*</label>
+            <input id="card_cvc" type="text" placeholder="CVC" />
+          </div>
+        </div>
+
         <div>
           <h3>Odaberite količine (0 = ne naručujem)</h3>
           <div id="order-items"></div>
@@ -68,6 +88,37 @@
       </form>
 
       <div id="message"></div>
+    </section>
+
+    <section id="receipt-section" class="card" style="display:none">
+      <h2>Račun za ispis</h2>
+      <div class="form-row">
+        <label for="company_name">Naziv firme</label>
+        <input id="company_name" placeholder="Restoran Sirena" value="Restoran Sirena" />
+      </div>
+      <div class="form-row">
+        <label for="company_address">Adresa</label>
+        <input id="company_address" placeholder="Ulica bb, Grad" />
+      </div>
+      <div class="form-row">
+        <label for="company_jib">JIB</label>
+        <input id="company_jib" placeholder="JIB" />
+      </div>
+      <div class="form-row">
+        <label for="company_pib">PIB</label>
+        <input id="company_pib" placeholder="PIB" />
+      </div>
+      <div class="form-row">
+        <label for="company_ibfm">IBFM</label>
+        <input id="company_ibfm" placeholder="IBFM" />
+      </div>
+      <div class="form-row">
+        <label for="operator">Operator</label>
+        <input id="operator" placeholder="Ime operatera" />
+      </div>
+      <div class="form-row">
+        <button id="print-receipt">Generiraj račun za ispis</button>
+      </div>
     </section>
 
     <section id="reservation-section" class="card">

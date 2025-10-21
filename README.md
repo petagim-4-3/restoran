@@ -172,6 +172,31 @@ Kako koristiti:
 Sigurnosna napomena:
 - Ovo admin sučelje je vrlo jednostavno i nema autentikaciju — koristi ga samo lokalno ili na zaštićenom serveru. Za produkciju dodaj autentikaciju (npr. Basic Auth ili sessions) i ograniči pristup.
 
+### admin_auth.html (v3 - zaštićeno)
+
+Zaštićena verzija admin sučelja s HTTP Basic autentikacijom.
+
+1. Pokreni server s vjerodajnicama (opcionalno):
+   ```
+   export ADMIN_USER=admin
+   export ADMIN_PASS=admin123
+   npm start
+   ```
+2. Otvori: `http://localhost:3000/admin_auth.html`
+3. Upiši vjerodajnice (default: admin / admin123)
+4. Identična funkcionalnost kao admin.html, ali zaštićena
+
+### admin_v4.html (v4 - napredni)
+
+Napredna verzija s pretraživanjem i filtriranjem.
+
+1. Otvori: `http://localhost:3000/admin_v4.html`
+2. Funkcionalnosti:
+   - Pretraga po imenu/telefonu/emailu
+   - Filteri: lokacija, plaćanje, stol
+   - Detalji narudžbe (uključujući karticu)
+   - Brisanje narudžbi
+
 ---
 
 ## Snimke ekrana

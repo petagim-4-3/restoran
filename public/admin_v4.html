@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="hr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Restoran - Admin v4 (Advanced)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Admin v4 - Napredni pregled</h1>
+      <p>Pretraživanje, filtriranje i detalji narudžbi</p>
+    </header>
+
+    <section class="card">
+      <h2>Pretraga i filteri</h2>
+      <div class="form-row">
+        <label for="search">Pretraga (ime, telefon, email)</label>
+        <input type="text" id="search" placeholder="Unesite za pretragu..." />
+      </div>
+      <div class="form-row">
+        <label for="filter-location">Lokacija</label>
+        <select id="filter-location">
+          <option value="">Sve lokacije</option>
+          <option value="terasa">Terasa</option>
+          <option value="restoran">Restoran</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="filter-payment">Način plaćanja</label>
+        <select id="filter-payment">
+          <option value="">Svi načini</option>
+          <option value="gotovina">Gotovina</option>
+          <option value="kartica">Kartica</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="filter-table">Broj stola (opcionalno)</label>
+        <input type="number" id="filter-table" placeholder="npr. 5" />
+      </div>
+      <div class="form-row">
+        <button id="apply-filters">Primijeni filtere</button>
+        <button id="reset-filters">Poništi filtere</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Narudžbe</h2>
+      <div id="orders-list">Učitavanje narudžbi...</div>
+    </section>
+
+    <section class="card" id="order-details-section" style="display:none">
+      <h2>Detalji narudžbe</h2>
+      <div id="order-details"></div>
+    </section>
+
+    <footer>
+      <small>Admin v4 - Napredni pregled narudžbi</small>
+    </footer>
+  </div>
+
+  <script src="admin_v4.js"></script>
+</body>
+</html>
