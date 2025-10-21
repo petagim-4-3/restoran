@@ -3,35 +3,32 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Restoran v1 - Lokalno</title>
+  <title>Sirena - Lokalna verzija (v1)</title>
   <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>Restoran - Verzija 1 (lokalno) - Narudžba & Rezervacija</h1>
-      <p>Tehnologije: HTML, CSS, JavaScript. Učenici mogu spremiti JSON na svoj računar.</p>
+      <h1>Restoran "Sirena" — Verzija 1 (lokalno)</h1>
+      <p>Frontend-only: učenici mogu spremiti narudžbu i generirati račun kao ispis.</p>
     </header>
 
-    <section id="menu-section" class="card">
-      <h2>Meni</h2>
+    <section class="card">
+      <h2>Meni - Sirena</h2>
       <div id="menu-list">Učitavanje...</div>
     </section>
 
-    <section id="order-section" class="card">
+    <section class="card">
       <h2>Forma narudžbe</h2>
       <form id="order-form">
         <div class="form-row">
           <label for="customer_name">Ime i prezime*</label>
-          <input type="text" id="customer_name" name="customer_name" required placeholder="Ime i prezime" />
+          <input type="text" id="customer_name" required />
         </div>
+
         <div class="form-row">
           <label for="customer_phone">Telefon*</label>
-          <input type="text" id="customer_phone" name="customer_phone" required placeholder="+385912345678 ili 0912345678" />
-        </div>
-        <div class="form-row">
-          <label for="customer_email">Email (opcionalno)</label>
-          <input type="email" id="customer_email" name="customer_email" placeholder="ime@domena.hr" />
+          <input type="text" id="customer_phone" required />
         </div>
 
         <div class="form-row">
@@ -45,18 +42,36 @@
 
         <div class="form-row">
           <label for="table_select">Broj stola*</label>
-          <select id="table_select" required>
-            <option value="">Prvo odaberite lokaciju</option>
-          </select>
+          <select id="table_select" required><option value="">Prvo odaberite lokaciju</option></select>
         </div>
 
         <div class="form-row">
-          <label>Nacin placanja*</label>
+          <label>Način plaćanja*</label>
           <select id="payment_method" required>
-            <option value="">Odaberite način plaćanja</option>
+            <option value="">Odaberite</option>
             <option value="gotovina">Gotovina</option>
             <option value="kartica">Kartica</option>
           </select>
+        </div>
+
+        <div id="card-block" style="display:none" class="card">
+          <h3>Podaci o kartici</h3>
+          <div class="form-row">
+            <label for="card_name">Ime i prezime</label>
+            <input id="card_name" type="text" />
+          </div>
+          <div class="form-row">
+            <label for="card_number">Broj kartice</label>
+            <input id="card_number" type="text" placeholder="xxxx xxxx xxxx xxxx" />
+          </div>
+          <div class="form-row">
+            <label for="card_expiry">Datum isteka (MM/YY)</label>
+            <input id="card_expiry" type="text" placeholder="MM/YY" />
+          </div>
+          <div class="form-row">
+            <label for="card_cvc">CVC</label>
+            <input id="card_cvc" type="text" placeholder="CVC" />
+          </div>
         </div>
 
         <div>
@@ -66,62 +81,42 @@
 
         <div class="form-row">
           <button type="submit">Spremi narudžbu kao JSON</button>
+          <button type="button" id="generate-receipt">Generiraj račun za ispis</button>
         </div>
       </form>
       <div id="message"></div>
     </section>
 
-    <section id="reservation-section" class="card">
-      <h2>Rezervacija stola (poseban formular)</h2>
-      <form id="reservation-form">
-        <div class="form-row">
-          <label for="r_name">Ime i prezime*</label>
-          <input type="text" id="r_name" required />
-        </div>
-        <div class="form-row">
-          <label for="r_phone">Telefon*</label>
-          <input type="text" id="r_phone" required />
-        </div>
-        <div class="form-row">
-          <label for="r_email">Email (opcionalno)</label>
-          <input type="email" id="r_email" />
-        </div>
-
-        <div class="form-row">
-          <label for="r_location">Lokacija*</label>
-          <select id="r_location" required>
-            <option value="">Odaberite</option>
-            <option value="terasa">Terasa</option>
-            <option value="restoran">Restoran</option>
-          </select>
-        </div>
-
-        <div class="form-row">
-          <label for="r_table">Stol*</label>
-          <select id="r_table" required>
-            <option value="">Prvo odaberite lokaciju</option>
-          </select>
-        </div>
-
-        <div class="form-row">
-          <label for="r_datetime">Datum i vrijeme rezervacije*</label>
-          <input id="r_datetime" type="datetime-local" required />
-        </div>
-
-        <div class="form-row">
-          <label for="r_seats">Broj osoba (opcionalno)</label>
-          <input id="r_seats" type="number" min="1" max="20" />
-        </div>
-
-        <div class="form-row">
-          <button type="submit">Spremi rezervaciju kao JSON</button>
-        </div>
-      </form>
-      <div id="res-message"></div>
+    <section class="card">
+      <h2>Ispis računa</h2>
+      <div class="form-row">
+        <label for="company_name">Naziv firme</label>
+        <input id="company_name" placeholder="Naziv firme" />
+      </div>
+      <div class="form-row">
+        <label for="company_address">Adresa firme</label>
+        <input id="company_address" placeholder="Adresa firme" />
+      </div>
+      <div class="form-row">
+        <label for="company_jib">JIB</label>
+        <input id="company_jib" placeholder="JIB" />
+      </div>
+      <div class="form-row">
+        <label for="company_pib">PIB</label>
+        <input id="company_pib" placeholder="PIB" />
+      </div>
+      <div class="form-row">
+        <label for="company_ibfm">IBFM</label>
+        <input id="company_ibfm" placeholder="IBFM" />
+      </div>
+      <div class="form-row">
+        <label for="operator">Operator</label>
+        <input id="operator" placeholder="Operater" />
+      </div>
     </section>
 
     <footer>
-      <small>Projekt za informatiku — 4. razred gimnazije (v1 lokalna)</small>
+      <small>Sirena — školski projekt</small>
     </footer>
   </div>
 
