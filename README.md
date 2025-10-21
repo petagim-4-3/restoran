@@ -25,3 +25,21 @@ Aplikacija:
 - 10 stolova na terasi ("terasa") i 10 stolova u restoranu ("restoran")
 - Narudžbe s načinom plaćanja (gotovina/kartica)
 - Posebna forma za rezervacije (odvojeno od narudžbe)
+
+
+## Admin sučelje
+
+Jednostavno admin sučelje nalazi se u public/admin.html.
+
+Kako koristiti:
+1. Pokreni server (v2):
+   - npm install
+   - npm start
+   - Otvori u pregledniku: http://localhost:3000/admin.html
+
+2. Stranica prikazuje:
+   - Narudžbe (GET /api/orders) — klikom na "Obriši" brišeš narudžbu i pripadajuće stavke (DELETE /api/orders/:id).
+   - Rezervacije (GET /api/reservations) — klikom na "Obriši" brišeš rezervaciju (DELETE /api/reservations/:id).
+
+Sigurnosna napomena:
+- Ovo admin sučelje je vrlo jednostavno i nema autentikaciju — koristi ga samo lokalno ili na zaštićenom serveru. Za produkciju dodaj autentikaciju (npr. osnovnu Basic Auth ili sessions) i HTTPS.

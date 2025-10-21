@@ -117,4 +117,31 @@ app.get('/api/reservations', (req, res) => {
   });
 });
 
+// DELETE order (and its items)
+app.delete('/api/orders/:id', (req, res) => {
+  const id = Number(req.params.id);
+  if (!id) return res.status(400).json({ error: 'Neispravan ID' });
+
+  db.run(`DELETE FROM order_items WHERE order_id = ?`, [id], function(err) {
+    if (err) return res.status(500).json({ error: 'DB error pri brisanju stavki' });
+    db.run(`DELETE FROM orders WHERE id = ?`, [id], function(err2) {
+      if (err2) return res.status(500).json({ error: 'DB error pri brisanju narudžbe' });
+      if (this.changes === 0) return res.status(404).json({ error: 'Narudžba nije pronađena' });
+      res.json({ success: true });
+    });
+  });
+});
+
+// DELETE reservation
+app.delete('/api/reservations/:id', (req, res) => {
+  const id = Number(req.params.id);
+  if (!id) return res.status(400).json({ error: 'Neispravan ID' });
+
+  db.run(`DELETE FROM reservations WHERE id = ?`, [id], function(err) {
+    if (err) return res.status(500).json({ error: 'DB error pri brisanju rezervacije' });
+    if (this.changes === 0) return res.status(404).json({ error: 'Rezervacija nije pronađena' });
+    res.json({ success: true });
+  });
+});
+
 app.listen(PORT, () => { console.log(`Server pokrenut na http://localhost:${PORT}`); });
