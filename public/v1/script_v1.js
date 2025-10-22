@@ -7,16 +7,16 @@ const orderForm = document.getElementById('order-form');
 const msgEl = document.getElementById('message');
 
 const menu = [
-  { id:1, name:"Hobotnica na žaru", price:95.00 },
-  { id:2, name:"Lignje", price:75.00 },
-  { id:3, name:"Losos", price:88.00 },
-  { id:4, name:"Pastrmka (riba)", price:70.00 },
-  { id:5, name:"Kozice", price:90.00 },
-  { id:6, name:"Skuša", price:55.00 },
-  { id:7, name:"Škampi", price:98.00 },
-  { id:8, name:"Ceviche od kozica i ananasa", price:110.00 },
-  { id:9, name:"Rižoto", price:72.00 },
-  { id:10, name:"Orada", price:85.00 }
+  { id:1, name:"Hobotnica na žaru", price:25.00 },
+  { id:2, name:"Lignje", price:20.00 },
+  { id:3, name:"Losos", price:22.00 },
+  { id:4, name:"Pastrmka (riba)", price:21.00 },
+  { id:5, name:"Kozice", price:24.00 },
+  { id:6, name:"Skuša", price:16.00 },
+  { id:7, name:"Škampi", price:26.00 },
+  { id:8, name:"Ceviche od kozica i ananasa", price:30.00 },
+  { id:9, name:"Rižoto", price:19.00 },
+  { id:10, name:"Orada", price:32.00 }
 ];
 
 function renderMenu() { menuListEl.innerHTML = ''; menu.forEach(d => { const div = document.createElement('div'); div.className = 'dish'; div.innerHTML = `<div><strong>${d.name}</strong></div><div>${d.price.toFixed(2)} KM</div>`; menuListEl.appendChild(div); }); }

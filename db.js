@@ -58,16 +58,16 @@ function init() {
       if (row.count === 0) {
         const stmt = db.prepare(`INSERT INTO dishes (name, price) VALUES (?, ?)`);
         const dishes = [
-          ["Hobotnica na žaru", 95.00],
-          ["Lignje", 75.00],
-          ["Losos", 88.00],
-          ["Pastrmka (riba)", 70.00],
-          ["Kozice", 90.00],
-          ["Skuša", 55.00],
-          ["Škampi", 98.00],
-          ["Ceviche od kozica i ananasa", 110.00],
-          ["Rižoto", 72.00],
-          ["Orada", 85.00]
+          ["Hobotnica na žaru", 25.00],
+          ["Lignje", 20.00],
+          ["Losos", 22.00],
+          ["Pastrmka (riba)", 21.00],
+          ["Kozice", 24.00],
+          ["Skuša", 16.00],
+          ["Škampi", 26.00],
+          ["Ceviche od kozica i ananasa", 30.00],
+          ["Rižoto", 19.00],
+          ["Orada", 32.00]
         ];
         dishes.forEach(d => stmt.run(d[0], d[1]));
         stmt.finalize();
