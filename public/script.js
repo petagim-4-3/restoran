@@ -32,9 +32,9 @@ function showMessage(el, text, type='') { el.innerHTML = ''; const p = document.
 fetch('/api/menu').then(r => r.json()).then(data => { menu = data; renderMenu(menu); renderOrderItems(menu); }).catch(err => { menuListEl.textContent = 'Greška pri učitavanju menija'; });
 fetch('/api/tables').then(r => r.json()).then(t => { tables = t; populateLocationSelects(); }).catch(err => { console.error(err); locationSelect.innerHTML = '<option value="">Greška pri učitavanju</option>'; });
 
-function renderMenu(menu) { menuListEl.innerHTML = ''; menu.forEach(d => { const div = document.createElement('div'); div.className = 'dish'; div.innerHTML = `<div><strong>${d.name}</strong></div><div>${d.price.toFixed(2)} kn</div>`; menuListEl.appendChild(div); }); }
+function renderMenu(menu) { menuListEl.innerHTML = ''; menu.forEach(d => { const div = document.createElement('div'); div.className = 'dish'; div.innerHTML = `<div><strong>${d.name}</strong></div><div>${d.price.toFixed(2)} KM</div>`; menuListEl.appendChild(div); }); }
 function renderOrderItems(menu) { orderItemsEl.innerHTML = ''; menu.forEach(d => { const row = document.createElement('div'); row.className = 'item'; row.innerHTML = `
-      <div style="flex:1">${d.name} <small>${d.price.toFixed(2)} kn</small></div>
+      <div style="flex:1">${d.name} <small>${d.price.toFixed(2)} KM</small></div>
       <div>
         <input class="qty" type="number" min="0" value="0" data-dish-id="${d.id}" />
       </div>
@@ -172,7 +172,7 @@ document.getElementById('print-receipt').addEventListener('click', () => {
   let itemsHtml = '';
   lastOrderItems.forEach(it => {
     const itemTotal = it.price * it.quantity;
-    itemsHtml += `<tr><td>${escapeHtml(it.name)}</td><td>${it.quantity}</td><td>${it.price.toFixed(2)} kn</td><td>${itemTotal.toFixed(2)} kn</td></tr>`;
+    itemsHtml += `<tr><td>${escapeHtml(it.name)}</td><td>${it.quantity}</td><td>${it.price.toFixed(2)} KM</td><td>${itemTotal.toFixed(2)} KM</td></tr>`;
   });
   
   const receiptHtml = `
@@ -215,9 +215,9 @@ document.getElementById('print-receipt').addEventListener('click', () => {
       </table>
       
       <div class="totals">
-        <div><strong>Međuzbroj:</strong> ${subtotal.toFixed(2)} kn</div>
-        <div><strong>PDV (17%):</strong> ${pdvAmount.toFixed(2)} kn</div>
-        <div style="font-size:1.2em"><strong>UKUPNO:</strong> ${total.toFixed(2)} kn</div>
+        <div><strong>Međuzbroj:</strong> ${subtotal.toFixed(2)} KM</div>
+        <div><strong>PDV (17%):</strong> ${pdvAmount.toFixed(2)} KM</div>
+        <div style="font-size:1.2em"><strong>UKUPNO:</strong> ${total.toFixed(2)} KM</div>
       </div>
       
       <div class="qr-code">

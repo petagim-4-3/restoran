@@ -24,9 +24,9 @@ const menu = [
   { id:10, name:"Orada", price:30.00 }
 ];
 
-function renderMenu() { menuListEl.innerHTML = ''; menu.forEach(d => { const div = document.createElement('div'); div.className = 'dish'; div.innerHTML = `<div><strong>${d.name}</strong></div><div>${d.price.toFixed(2)} kn</div>`; menuListEl.appendChild(div); }); }
+function renderMenu() { menuListEl.innerHTML = ''; menu.forEach(d => { const div = document.createElement('div'); div.className = 'dish'; div.innerHTML = `<div><strong>${d.name}</strong></div><div>${d.price.toFixed(2)} KM</div>`; menuListEl.appendChild(div); }); }
 function renderOrderItems() { orderItemsEl.innerHTML = ''; menu.forEach(d => { const row = document.createElement('div'); row.className = 'item'; row.innerHTML = `
-      <div style="flex:1">${d.name} <small>${d.price.toFixed(2)} kn</small></div>
+      <div style="flex:1">${d.name} <small>${d.price.toFixed(2)} KM</small></div>
       <div>
         <input class="qty" type="number" min="0" value="0" data-dish-id="${d.id}" />
       </div>
@@ -202,7 +202,7 @@ function renderDraftSummary() {
   draftSummaryEl.innerHTML = `
     <strong>Sačuvana narudžba (draft)</strong><br/>
     Kupac: ${escapeHtml(name)} · Lokacija/Stol: ${escapeHtml(String(loc))}/${escapeHtml(String(table))}<br/>
-    Stavki: ${itemsCount} ${hasItems ? `· Međuzbroj: ${subtotal.toFixed(2)} kn` : ''}
+    Stavki: ${itemsCount} ${hasItems ? `· Međuzbroj: ${subtotal.toFixed(2)} KM` : ''}
     <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
       <button type="button" id="btn-load-draft">Nastavi uređivanje</button>
       <button type="button" id="btn-clear-draft">Obriši sačuvano</button>
@@ -255,7 +255,7 @@ document.getElementById('generate-receipt').addEventListener('click', () => {
     if (dish) {
       const itemTotal = dish.price * it.quantity;
       subtotal += itemTotal;
-      itemsHtml += `<tr><td>${escapeHtml(dish.name)}</td><td>${it.quantity}</td><td>${dish.price.toFixed(2)} kn</td><td>${itemTotal.toFixed(2)} kn</td></tr>`;
+      itemsHtml += `<tr><td>${escapeHtml(dish.name)}</td><td>${it.quantity}</td><td>${dish.price.toFixed(2)} KM</td><td>${itemTotal.toFixed(2)} KM</td></tr>`;
     }
   });
   
@@ -312,9 +312,9 @@ document.getElementById('generate-receipt').addEventListener('click', () => {
       </table>
       
       <div class="totals">
-        <div><strong>Međuzbroj:</strong> ${subtotal.toFixed(2)} kn</div>
-        <div><strong>PDV (17%):</strong> ${pdvAmount.toFixed(2)} kn</div>
-        <div style="font-size:1.2em"><strong>UKUPNO:</strong> ${total.toFixed(2)} kn</div>
+        <div><strong>Međuzbroj:</strong> ${subtotal.toFixed(2)} KM</div>
+        <div><strong>PDV (17%):</strong> ${pdvAmount.toFixed(2)} KM</div>
+        <div style="font-size:1.2em"><strong>UKUPNO:</strong> ${total.toFixed(2)} KM</div>
       </div>
       
       <div class="qr-code">
