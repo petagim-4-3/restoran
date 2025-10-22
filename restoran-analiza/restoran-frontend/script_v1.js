@@ -12,16 +12,16 @@ const draftSummaryEl = document.getElementById('draft-summary');
 const DRAFT_KEY = 'restoran_v1_order_draft';
 
 const menu = [
-  { id:1, name:"Hobotnica na žaru", price:95.00 },
-  { id:2, name:"Lignje", price:75.00 },
-  { id:3, name:"Losos", price:88.00 },
-  { id:4, name:"Pastrmka (riba)", price:70.00 },
-  { id:5, name:"Kozice", price:90.00 },
-  { id:6, name:"Skuša", price:55.00 },
-  { id:7, name:"Škampi", price:98.00 },
-  { id:8, name:"Ceviche od kozica i ananasa", price:110.00 },
-  { id:9, name:"Rižoto", price:72.00 },
-  { id:10, name:"Orada", price:85.00 }
+  { id:1, name:"Hobotnica na žaru", price:25.00 },
+  { id:2, name:"Lignje", price:20.00 },
+  { id:3, name:"Losos", price:22.00 },
+  { id:4, name:"Pastrmka (riba)", price:17.50 },
+  { id:5, name:"Kozice", price:23.00 },
+  { id:6, name:"Skuša", price:14.00 },
+  { id:7, name:"Škampi", price:28.00 },
+  { id:8, name:"Ceviche od kozica i ananasa", price:30.00 },
+  { id:9, name:"Rižoto", price:18.00 },
+  { id:10, name:"Orada", price:30.00 }
 ];
 
 function renderMenu() { menuListEl.innerHTML = ''; menu.forEach(d => { const div = document.createElement('div'); div.className = 'dish'; div.innerHTML = `<div><strong>${d.name}</strong></div><div>${d.price.toFixed(2)} kn</div>`; menuListEl.appendChild(div); }); }
