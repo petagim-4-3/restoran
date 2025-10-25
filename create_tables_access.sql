@@ -1,7 +1,3 @@
--- Access (Jet) SQL: create tables for frontend example (MenuItems, Orders, OrderItems, Companies, Employees, Roles)
--- Compatible with Access 2016 (.accdb)
-
--- MenuItems
 CREATE TABLE MenuItems (
   MenuItemID COUNTER PRIMARY KEY,
   Name TEXT(200),
@@ -10,7 +6,6 @@ CREATE TABLE MenuItems (
   Category TEXT(50)
 );
 
--- Companies
 CREATE TABLE Companies (
   CompanyID COUNTER PRIMARY KEY,
   Name TEXT(255),
@@ -20,14 +15,12 @@ CREATE TABLE Companies (
   IBFM TEXT(50)
 );
 
--- Roles
 CREATE TABLE Roles (
   RoleID COUNTER PRIMARY KEY,
   Name TEXT(100),
   Description MEMO
 );
 
--- Employees
 CREATE TABLE Employees (
   EmployeeID COUNTER PRIMARY KEY,
   FirstName TEXT(100),
@@ -41,7 +34,6 @@ CREATE TABLE Employees (
   PasswordHash TEXT(255)
 );
 
--- Orders
 CREATE TABLE Orders (
   OrderID COUNTER PRIMARY KEY,
   CustomerName TEXT(200),
@@ -60,7 +52,6 @@ CREATE TABLE Orders (
   Operator TEXT(100)
 );
 
--- OrderItems
 CREATE TABLE OrderItems (
   OrderItemID COUNTER PRIMARY KEY,
   OrderID LONG,
@@ -73,4 +64,7 @@ CREATE TABLE OrderItems (
   LineTotal CURRENCY
 );
 
--- Note: If ALTER TABLE foreign key statements fail in Access SQL view, create relationships using Database Tools -> Relationships and enable Enforce Referential Integrity.
+ALTER TABLE Orders ADD CONSTRAINT FK_Orders_Companies FOREIGN KEY (CompanyID) REFERENCES Companies(CompanyID);
+ALTER TABLE OrderItems ADD CONSTRAINT FK_OrderItems_Orders FOREIGN KEY (OrderID) REFERENCES Orders(OrderID);
+ALTER TABLE OrderItems ADD CONSTRAINT FK_OrderItems_MenuItems FOREIGN KEY (MenuItemID) REFERENCES MenuItems(MenuItemID);
+ALTER TABLE Employees ADD CONSTRAINT FK_Employees_Roles FOREIGN KEY (RoleID) REFERENCES Roles(RoleID);
