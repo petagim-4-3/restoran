@@ -65,6 +65,9 @@ CREATE TABLE OrderItems (
 );
 
 ALTER TABLE Orders ADD CONSTRAINT FK_Orders_Companies FOREIGN KEY (CompanyID) REFERENCES Companies(CompanyID);
+
 ALTER TABLE OrderItems ADD CONSTRAINT FK_OrderItems_Orders FOREIGN KEY (OrderID) REFERENCES Orders(OrderID);
+
 ALTER TABLE OrderItems ADD CONSTRAINT FK_OrderItems_MenuItems FOREIGN KEY (MenuItemID) REFERENCES MenuItems(MenuItemID);
+
 ALTER TABLE Employees ADD CONSTRAINT FK_Employees_Roles FOREIGN KEY (RoleID) REFERENCES Roles(RoleID);
